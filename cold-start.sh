@@ -29,8 +29,8 @@ if [ -f "${PROJECT_ROOT}/recovery_complete.flag" ]; then
 fi
 
 # Dependency injection phase (v20+)
-echo "📦 Dependency Injection: Ensuring forensic tools..."
-sudo dnf install -y sqlite tcpdump mtr traceroute bind-utils haveged chrony iw rfkill || true
+# Note: fix-wifi.sh now handles this efficiently by testing for binary presence first.
+echo "📦 Dependency Check: fix-wifi.sh will verify forensic tools..."
 
 # Clear ports aggressively (self-healing)
 echo "🧹 Self-healing: Aggressively clearing ports 3000 and 24678..."
