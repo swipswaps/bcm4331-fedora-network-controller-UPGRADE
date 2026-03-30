@@ -22,8 +22,13 @@ trap 'dump_stack "$LINENO"' ERR
 # Config
 LOG_FILE="${PROJECT_ROOT:-$(pwd)}/verbatim_handshake.log"
 DB_FILE="${PROJECT_ROOT:-$(pwd)}/recovery_state.db"
-INTERFACE="wlan0"  # bcm4331 primary interface (auto-detected in production)
 CHECK_ONLY="${CHECK_ONLY:-0}"
+
+# Dynamic Wi-Fi interface detection (works for wlan0, wlp*, wl*)
+detect_interface() {
+  INTERFACE=$(ls /sys/class/net 2>/dev/null | grep -E '^(wl|wlan)' | head -n1 || echo "wlan0")
+  echo "→ MILESTONE: INTERFACE_DETECTED:${INTERFACE}" | tee -a "$LOG_FILE"
+}
 
 # Verbose logging before any execution
 log_execution() {
@@ -134,6 +139,7 @@ install_dependencies() {
 # Forensic Handshake Suite (v70 core + v80 extras)
 forensic_handshake() {
   record_milestone "FORENSIC_HANDSHAKE_START"
+  detect_interface
   
   # ICMP
   run_verbatim "ping -c 3 -W 2 8.8.8.8" "ICMP Check: Basic reachability"
@@ -177,6 +183,7 @@ forensic_handshake() {
 # Nuclear Recovery Sequence (all 6 steps atomic + idempotent)
 nuclear_recovery() {
   record_milestone "RECOVERY_EXECUTION_START"
+  detect_interface
   
   # 1. Nuclear Clear (quarantine ethernet, kill conflicting processes)
   run_verbatim "sudo nmcli device disconnect enp1s0f0 || true" "Nuclear Clear: Quarantine ethernet enp1s0f0"

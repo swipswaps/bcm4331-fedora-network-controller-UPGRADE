@@ -12,7 +12,7 @@ npm run cold-start
 ```
 **What it does:**
 - Clears conflicting ports (3000, 24678).
-- Injects missing forensic dependencies (sqlite, tcpdump, mtr, etc.).
+- Verifies forensic tools are present (skips install if working).
 - Reloads Broadcom drivers (`b43`).
 - Forces NetworkManager to re-manage the interface.
 - Performs a full forensic handshake to verify Layer 1-4 connectivity.
@@ -59,7 +59,7 @@ This project adheres to strict **Request Compliance** standards:
 - **Auditability:** Every action leaves a trace in `recovery_state.db`.
 
 ### File Manifest
-- `fix-wifi.sh`: The core recovery engine.
+- `fix-wifi.sh`: The core recovery engine (v92 Optimized).
 - `cold-start.sh`: Atomic orchestrator for zero-state recovery.
 - `setup-system.sh`: System integration and permission manager.
 - `server.ts`: Self-healing Express backend.
