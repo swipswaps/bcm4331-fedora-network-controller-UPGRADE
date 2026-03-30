@@ -1,0 +1,5 @@
+{
+  "name": "Broadcom Wi-Fi Control Center",
+  "description": "A deterministic, forensic recovery and management suite for Broadcom Wi-Fi chipsets on Fedora.",
+  "requestFramePermissions": []
+}
